@@ -1,0 +1,24 @@
+{
+  "preview_url": "string",    // ссылка на миниатюру
+  "sample_url": "string",     // ссылка на сэмпл/превью в хорошем качестве (если есть)
+  "file_url": "string",       // ссылка на оригинал картинки/графики
+  "directory": number,        // номер папки на сервере (служебное)
+  "hash": "string",           // хэш файла (тоже служебное)
+  "width": number,            // ширина оригинального изображения
+  "height": number,           // высота оригинального изображения
+  "id": number,               // id поста
+  "image": "string",          // имя файла
+  "change": number,           // unix-время последнего изменения
+  "owner": "string",          // ник автора
+  "parent_id": number|null,   // id "родителя" (0 или null, если нет)
+  "rating": "string",         // рейтинг контента ('safe', 'questionable', 'explicit')
+  "sample": boolean,          // есть ли сэмпл (true/false)
+  "sample_height": number,    // высота сэмпла (если есть)
+  "sample_width": number,     // ширина сэмпла (если есть)
+  "score": number,            // рейтинг (голоса/лайки)
+  "tags": "string",           // строка тегов через пробел
+  "source": "string",         // исходник (может быть пустой строкой)
+  "status": "string",         // статус ('active' и т.д.)
+  "has_notes": boolean,       // есть ли заметки (true/false)
+  "comment_count": number     // количество комментов
+}

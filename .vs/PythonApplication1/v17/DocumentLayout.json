@@ -1,0 +1,128 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\kakto\\source\\repos\\PythonApplication1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{38A4165A-C26F-49D2-8902-A068AC0A937A}|PythonApplication1\\PythonApplication1.pyproj|C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\app.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{38A4165A-C26F-49D2-8902-A068AC0A937A}|PythonApplication1\\PythonApplication1.pyproj|solutionrelative:PythonApplication1\\app.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38A4165A-C26F-49D2-8902-A068AC0A937A}|PythonApplication1\\PythonApplication1.pyproj|C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\r34nfag.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{38A4165A-C26F-49D2-8902-A068AC0A937A}|PythonApplication1\\PythonApplication1.pyproj|solutionrelative:PythonApplication1\\r34nfag.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38A4165A-C26F-49D2-8902-A068AC0A937A}|PythonApplication1\\PythonApplication1.pyproj|C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\.env||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{38A4165A-C26F-49D2-8902-A068AC0A937A}|PythonApplication1\\PythonApplication1.pyproj|solutionrelative:PythonApplication1\\.env||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38A4165A-C26F-49D2-8902-A068AC0A937A}|PythonApplication1\\PythonApplication1.pyproj|C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\config.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{38A4165A-C26F-49D2-8902-A068AC0A937A}|PythonApplication1\\PythonApplication1.pyproj|solutionrelative:PythonApplication1\\config.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38A4165A-C26F-49D2-8902-A068AC0A937A}|PythonApplication1\\PythonApplication1.pyproj|C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\charCreate.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{38A4165A-C26F-49D2-8902-A068AC0A937A}|PythonApplication1\\PythonApplication1.pyproj|solutionrelative:PythonApplication1\\charCreate.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{38A4165A-C26F-49D2-8902-A068AC0A937A}|PythonApplication1\\PythonApplication1.pyproj|C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\tags.json||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{38A4165A-C26F-49D2-8902-A068AC0A937A}|PythonApplication1\\PythonApplication1.pyproj|solutionrelative:PythonApplication1\\tags.json||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 232,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "config.py",
+              "DocumentMoniker": "C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\config.py",
+              "RelativeDocumentMoniker": "PythonApplication1\\config.py",
+              "ToolTip": "C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\config.py",
+              "RelativeToolTip": "PythonApplication1\\config.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-06-30T16:42:18.773Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": ".env",
+              "DocumentMoniker": "C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\.env",
+              "RelativeDocumentMoniker": "PythonApplication1\\.env",
+              "ToolTip": "C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\.env",
+              "RelativeToolTip": "PythonApplication1\\.env",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-06-30T15:08:31.914Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "r34nfag.py",
+              "DocumentMoniker": "C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\r34nfag.py",
+              "RelativeDocumentMoniker": "PythonApplication1\\r34nfag.py",
+              "ToolTip": "C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\r34nfag.py",
+              "RelativeToolTip": "PythonApplication1\\r34nfag.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-06-30T14:45:49.949Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "app.py",
+              "DocumentMoniker": "C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\app.py",
+              "RelativeDocumentMoniker": "PythonApplication1\\app.py",
+              "ToolTip": "C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\app.py",
+              "RelativeToolTip": "PythonApplication1\\app.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-06-27T20:04:24.188Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "charCreate.py",
+              "DocumentMoniker": "C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\charCreate.py",
+              "RelativeDocumentMoniker": "PythonApplication1\\charCreate.py",
+              "ToolTip": "C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\charCreate.py",
+              "RelativeToolTip": "PythonApplication1\\charCreate.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJEAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-06-30T16:38:04.916Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 232,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "tags.json",
+              "DocumentMoniker": "C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\tags.json",
+              "RelativeDocumentMoniker": "PythonApplication1\\tags.json",
+              "ToolTip": "C:\\Users\\kakto\\source\\repos\\PythonApplication1\\PythonApplication1\\tags.json",
+              "RelativeToolTip": "PythonApplication1\\tags.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-06-27T20:35:52.701Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

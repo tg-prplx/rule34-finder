@@ -1,0 +1,193 @@
+{
+    "who": [
+      "solo","1girl","1boy","2girls","2boys","3girls","group",
+      "multiple_girls","multiple_boys",
+      "hetero","yuri","yaoi","futanari","futa_on_male","futa_on_female"
+    ],
+
+    "body_type": [
+      "petite","slim","curvy","hourglass","thicc","chubby","muscular","abs",
+      "big_breasts","medium_breasts","small_breasts","flat_chest",
+      "big_ass","wide_hips","thick_thighs","pregnant",
+      "loli","milf"
+    ],
+
+    "hair_style": [
+      "long_hair","very_long_hair","short_hair","bob_cut","ponytail","twin_tails",
+      "braided_hair","drill_hair","hime_cut","side_bangs","bangs","ahoge",
+      "hair_bun","messy_hair","spiky_hair"
+    ],
+
+    "hair_color": [
+      "blonde_hair","brown_hair","black_hair","red_hair","pink_hair",
+      "blue_hair","green_hair","purple_hair","white_hair","silver_hair",
+      "gray_hair","rainbow_hair","gradient_hair"
+    ],
+
+    "eyes": [
+      "blue_eyes","green_eyes","brown_eyes","red_eyes","amber_eyes",
+      "heterochromia","glowing_eyes","heart_eyes","star_eyes",
+      "closed_eyes","half_closed_eyes","eye_roll"
+    ],
+
+    "clothes": [
+      "school_uniform","sailor_uniform","maid","nurse","bunny_suit",
+      "cheerleader","gym_uniform","swimsuit","bikini","micro_bikini",
+      "lingerie","panties","bra","naked_apron",
+      "stockings","thighhighs","garter_belt","pantyhose",
+      "boots","high_heels","socks","hoodie","jacket","crop_top",
+      "tshirt","dress","skirt","yukata","kimono","armor","bodysuit","latex"
+    ],
+
+    "pose_action": [
+      "smiling","blush","winking","teasing","seductive","kneeling","spreading",
+      "bent_over","presenting","hand_on_hip","peace_sign","looking_back",
+      "tongue_out","finger_bite","grab","licking_lips",
+      "masturbation","fingering","handjob","blowjob","titjob","footjob",
+      "facesitting","doggystyle","missionary","cowgirl","reverse_cowgirl",
+      "spooning","anal","double_penetration",
+      "cumshot","creampie","cum_in_mouth","cum_on_face","cum_on_body"
+    ],
+
+    "setting": [
+      "bedroom","bathroom","shower","bathtub","beach","pool","hot_spring",
+      "locker_room","classroom","library","office","kitchen","living_room",
+      "street","alley","park","forest","meadow","dungeon",
+      "space","spaceship","mecha_cockpit","throne_room"
+    ],
+
+    "mood": [
+      "happy","playful","aroused","naughty","embarrassed","shy","smug",
+      "surprised","annoyed","crying","confident","dominant","submissive",
+      "sleepy","drunk","angry","evil_smile"
+    ],
+
+    "personality": [
+      "tsundere","yandere","kuudere","dandere","genki_girl",
+      "ojousama","onee_san","tomboy","masochist","sadist"
+    ],
+
+    "accessories_props": [
+      "glasses","sunglasses","mask","headphones","microphone","smartphone",
+      "camera","laptop","game_controller","book","wand","sword","gun",
+      "chains","rope","ball_gag","collar","leash","tail_plug","buttplug",
+      "vibrator","dildo","sex_toy","bondage","handcuffs","blindfold",
+      "cat_ears","dog_ears","bunny_ears","horns","halo","wings","tail"
+    ],
+
+    "genre_theme": [
+      "fantasy","high_fantasy","urban_fantasy","mythology","sci-fi","cyberpunk",
+      "steampunk","post_apocalypse","dystopia","isekai","medieval","samurai",
+      "western","superhero","horror","guro","tentacles","military","sports",
+      "magical_girl","idol","school","slice_of_life","romance","comedy","adventure"
+    ],
+
+    "time_weather": [
+      "sunset","night","midnight","dawn","morning","afternoon",
+      "clear_sky","cloudy","rain","snow","storm","fog","neon_lights"
+    ],
+    "girls": [
+        "ackerman_mikasa",
+        "kamado_nezuko",
+        "kocho_shinobu",
+        "kugisaki_nobara",
+        "sakurajima_mai",
+        "makise_kurisu",
+        "zero_two",
+        "asuka_langley_soryu",
+        "ayanami_rei",
+        "winry_rockbell",
+        "gremory_rias",
+        "scarlet_erza",
+        "sinon",
+        "akame",
+        "lucy_heartfilia",
+        "tsunade",
+        "nami",
+        "nico_robin",
+        "boa_hancock",
+        "jabami_yumeko",
+        "zenin_maki",
+        "nishimiya_shouko",
+        "hinata_hyuga",
+        "uzumaki_kushina",
+        "artoria_pendragon",
+        "violet_evergarden",
+        "rem_(re_zero)",
+        "emilia_(re_zero)",
+        "megumin",
+        "yuno_gasai",
+        "mikoto_misaka",
+        "yatogami_tohka",
+        "tokisaki_kurumi",
+        "kallen_kouzuki",
+        "c.c.",
+        "tsunemori_akane",
+        "kusanagi_motoko",
+        "shihouin_yoruichi",
+        "kuchiki_rukia",
+        "kiryuin_satsuki",
+        "sturluson_celty",
+        "valentine_faye",
+        "higurashi_kagome",
+        "akemi_homura",
+        "aisaka_taiga",
+        "katsuragi_misato",
+        "shinomiya_kaguya",
+        "kitagawa_marin",
+        "inoue_orihime",
+        "holo_(spice_and_wolf)"
+    ],
+    "boys": [
+        "lamperouge_lelouch",
+        "monkey_d._luffy",
+        "ackerman_levi",
+        "l_(death_note)",
+        "roronoa_zoro",
+        "zoldyck_killua",
+        "yagami_light",
+        "okabe_rintarou",
+        "elric_edward",
+        "uzumaki_naruto",
+        "guts_(berserk)",
+        "sakata_gintoki",
+        "yeager_eren",
+        "uchiha_itachi",
+        "gojo_satoru",
+        "kaneki_ken",
+        "hikigaya_hachiman",
+        "hatake_kakashi",
+        "spiegel_spike",
+        "saitama_(one-punch_man)",
+        "joestar_joseph",
+        "kirigaya_kazuto",
+        "reigen_arataka",
+        "yato_(noragami)",
+        "mustang_roy",
+        "son_goku",
+        "uchiha_sasuke",
+        "ayanokouji_kiyotaka",
+        "dazai_osamu",
+        "kurosaki_ichigo",
+        "hisoka_(hunter_x_hunter)",
+        "kamina",
+        "onizuka_eikichi",
+        "araragi_koyomi",
+        "vinsmoke_sanji",
+        "thorfinn_(vinland_saga)",
+        "kamado_tanjiro",
+        "agatsuma_zenitsu",
+        "hashibira_inosuke",
+        "todoroki_shouto",
+        "midoriya_izuku",
+        "bakugou_katsuki",
+        "saiki_kusuo",
+        "kujo_jotaro",
+        "trafalgar_law",
+        "kise_ryouta",
+        "sebastian_michaelis",
+        "gilgamesh_(fate)",
+        "yeager_zeke",
+        "portgas_d._ace"
+    ]
+}
