@@ -31,6 +31,14 @@
 Установка
 ---------
 
+1. Простой способ
+
+```bash
+git clone https://github.com/tg-prplx/rule34-finder
+```
+Затем открыть в Visual Studio
+
+2. Ручной способ
 ```bash
 # 1. Клонируем репу
 git clone https://github.com/tg-prplx/rule34-finder
