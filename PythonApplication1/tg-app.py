@@ -1,4 +1,3 @@
-# WARNING: ts file is vibecoded all questions related to gpt-4.1 xD
 import os
 import dotenv
 import logging as log
@@ -8,18 +7,18 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
-
 from charCreate import CharCreate
 from r34nfag import Rule34NewForAnimeGooners
 
 dotenv.load_dotenv()
 log.basicConfig(level=log.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 if not TELEGRAM_BOT_TOKEN:
     raise Exception('TELEGRAM_BOT_TOKEN is missing in .env!')
+
 bot = Bot(token=TELEGRAM_BOT_TOKEN)
 dp = Dispatcher(storage=MemoryStorage())
-
 char_creator = CharCreate()
 rule34 = Rule34NewForAnimeGooners()
 
@@ -45,7 +44,38 @@ class CharFSM(StatesGroup):
     step = State()
     result = State()
 
-def build_step_keyboard(group, idx, tags, idx_selected=None, is_last=False):
+# --- NEW: Советы и обучалки для каждого шага
+STEP_ADVICE = {
+    "who":            "🧑‍🎤 <b>Тип персонажа</b>\nВыбери 1-2 основных типа или роли персонажа. Лучше не выбирать всё подряд! Чем проще, тем больше картинок найдёшь!",
+    "body_type":      "💪 <b>Фигура</b>\nВыдели 1–2 особенности или пропусти (⏭️), если неважно.",
+    "hair_style":     "💇‍♀️ <b>Причёска</b>\nМожешь выбрать несколько популярных вариантов либо пропустить.",
+    "hair_color":     "🎨 <b>Цвет волос</b>\nОбычные (русый, чёрный) встречаются чаще. Чем экзотичнее — тем меньше шансов что картинка будет найдена.",
+    "eyes":           "👁 <b>Глаза</b>\nФорма/цвет/выражение — тоже не обязательно. Чем банальнее — тем лучше.",
+    "clothes":        "👗 <b>Одежда</b>\nИзбегай комбинаций из редких костюмов, если хочешь больше артов!",
+    "pose_action":    "🕺 <b>Поза или действие</b>\nЛучше выбрать что-то простое либо пропустить.",
+    "setting":        "🏙 <b>Фон/Место</b>\nЭто можно смело пропускать, если тебе не нужен фон.",
+    "mood":           "😊 <b>Настроение</b>\nВесёлый? Грустный? Или может без разницы?",
+    "personality":    "🧠 <b>Черты характера</b>\nЭто влияет слабо — можешь пропустить.",
+    "accessories_props": "🎒 <b>Аксессуары и предметы</b>\nЛучше выбирать 0-1 вариант.",
+    "genre_theme":    "🌟 <b>Жанр или тема</b>\nВыбирай только если действительно важно.",
+    "time_weather":   "☀️ <b>Время дня/погода</b>\nМожно оставить пустым.",
+    "girls":          "👧 <b>Женские персонажи</b>\nЕсли хотят видеть на арте девушек.",
+    "boys":           "👦 <b>Мужские персонажи</b>\nНу или мальчиков!"
+}
+
+# --- Friendly приветствие и объяснение
+async def send_intro(message):
+    await message.answer(
+        "👋 <b>Привет!</b> Я помогу тебе найти арт на Rule34 по твоему уникальному описанию персонажа.\n\n"
+        "🔎 <b>Как пользоваться:</b>\n"
+        "1. На каждом шаге выбери 1-2 основных черты, чтобы больше вероятность найти что-то классное!\n"
+        "2. Не пытайся выбрать ВСЁ подряд — так картинок почти не бывает.\n"
+        "3. Если не важно — смело жми ⏭️ Пропустить! Чем проще, тем лучше.\n"
+        "4. В любой момент — /cancel для выхода.\n\n"
+        "Готов? Погнали!\n",
+        parse_mode="HTML")
+
+def build_step_keyboard(group, idx, tags, idx_selected=None):
     max_btns = 4
     kb = []
     for i, tag in enumerate(tags):
@@ -62,20 +92,11 @@ def build_step_keyboard(group, idx, tags, idx_selected=None, is_last=False):
     arranged.append(nav)
     return InlineKeyboardMarkup(inline_keyboard=arranged)
 
-@dp.callback_query(F.data.startswith("commit_"))
-async def commit_handler(call: CallbackQuery, state: FSMContext):
-    parts = call.data.split('_')
-    if len(parts) != 2: await call.answer("Ошибка данных кнопки."); return
-    idx = int(parts[1])
-    await state.update_data(step_index=idx+1)
-    try: await call.message.delete()
-    except Exception: pass
-    await send_step(call.message, state, preview=True)
-
 async def send_step(message_obj, state: FSMContext, preview=False):
     data = await state.get_data()
     idx = data.get('step_index', 0)
     answers = data.get("answers", {})
+    # --- Сборка описания из уже выбранного для Mидстепа
     prev_char = ""
     try:
         char_creator.char = ""
@@ -92,16 +113,17 @@ async def send_step(message_obj, state: FSMContext, preview=False):
         prev_char = char_creator.get_character()
     except Exception as e:
         prev_char = f"[ошибка превью: {e}]"
-
     if preview and prev_char:
         try:
             await message_obj.answer(
-                f"📝 <b>Текущий персонаж:</b>\n<code>{prev_char or '—'}</code>", parse_mode="HTML"
+                f"📝 <b>Твоё описание персонажа пока:</b>\n<code>{prev_char or '—'}</code>",
+                parse_mode="HTML"
             )
         except Exception:
             pass
 
     if idx >= len(func_steps):
+        # --- Сборка итогового персонажа и попытка поиска
         char_creator.char = ""
         for i, (group, func) in enumerate(func_steps):
             ans = answers.get(group)
@@ -116,11 +138,12 @@ async def send_step(message_obj, state: FSMContext, preview=False):
             await message_obj.answer("Некорректный персонаж, прерываю 😭")
             await state.clear()
             return
-
-        # --- Rule34 GENERATION ---
         await message_obj.answer(
-            f"<b>Готово!</b> Ваш персонаж:\n<code>{desc}</code>\n\nДелаю запрос...", parse_mode="HTML"
+            f"🧑‍💻 <b>Готово!</b> Вот описание персонажа, с которым попробую найти арты:\n\n<code>{desc}</code>\n\n"
+            "🔎 <b>Важно:</b> Если вдруг не найдётся ничего — попробуй сузить или упростить описание (например, выбрать поменьше редких тегов).",
+            parse_mode="HTML"
         )
+
         posts = []
         for page in range(1, 6):   # 1..5 -> pid=0..4
             chunk = rule34.make_rule34_request(desc, pid=page-1, limit=10)
@@ -140,21 +163,25 @@ async def send_step(message_obj, state: FSMContext, preview=False):
         all_tags = char_creator.get_tags()
         tags = all_tags[group]
     except Exception as e:
-        await message_obj.answer(f"Ошибка загрузки вариантов для {group}: {e}")
+        await message_obj.answer(f"Ошибка загрузки вариантов для <b>{group}</b>: {e}", parse_mode="HTML")
         await state.clear()
         return
-
     idx_selected = answers.get(group, [])
     if idx_selected is None:
         idx_selected = []
-    # показывать шаг + название группы
-    text = f"Шаг <b>{idx+1}/{len(func_steps)}</b>\nВыберите <b>{group.replace('_', ' ').capitalize()}</b>:"
-
-    # если что-то выбрано — красиво покажем
+    # Комментарии-шаги и пояснения
+    text = (f"Шаг <b>{idx+1}/{len(func_steps)}</b>\n"
+            f"Выберите <b>{group.replace('_', ' ').capitalize()}</b>:")
+    advice = STEP_ADVICE.get(group, "")
+    if advice:
+        text += f"\n\n{advice}"
+    # Показываем, что уже выбрал(а)
     if idx_selected:
         sel_txt = ", ".join(tags[i] for i in idx_selected if 0 <= i < len(tags))
-        text += f"\n\n<b>Твои теги:</b>\n<code>{sel_txt or '—'}</code>"
-
+        text += f"\n\n<b>Ты выбрал(а):</b> <code>{sel_txt or '—'}</code>"
+    # На каждом шаге — напоминание
+    text += ("\n\nМожно выбрать <b>несколько</b> вариантов или нажать ⏭️ если неважно!\n"
+             "<i>Чем проще — тем выше шанс найти картинку.</i>")
     kb = build_step_keyboard(group, idx, tags, idx_selected=idx_selected)
     await message_obj.answer(text, parse_mode="HTML", reply_markup=kb)
 
@@ -167,11 +194,21 @@ async def show_result(message_or_call, state: FSMContext, edit=False):
     if not resp:
         kb = InlineKeyboardMarkup(
             inline_keyboard=[
-                [InlineKeyboardButton(text="✏ Изменить запрос", callback_data="result_edit")]
+                [InlineKeyboardButton(text="✏️ Изменить запрос", callback_data="result_edit")],
+                [InlineKeyboardButton(text="❓ Советы", callback_data="help_tips")]
             ]
         )
-        await send_result_message(message_or_call, "😢 <b>Ничего не найдено!</b>\nПопробуйте изменить запрос.", kb, edit)
+        await send_result_message(
+            message_or_call,
+            "😢 <b>Картинок не найдено!</b>\n\n"
+            "Что делать?\n"
+            "— Убери некоторые малопопулярные или уникальные теги (цвет, предметы, поза и т.д.)\n"
+            "— Комбинируй по паре фич — например, только 'тип' и 'цвет волос'.\n"
+            "— Попробуй ещё раз!\n",
+            kb, edit
+        )
         return
+    # Картинка найдена
     post = resp[idx]
     img_url = post.get("file_url") or post.get("sample_url")
     nav = []
@@ -179,9 +216,15 @@ async def show_result(message_or_call, state: FSMContext, edit=False):
         nav.append(InlineKeyboardButton(text='⬅️ Назад', callback_data='result_prev'))
     if idx < total - 1:
         nav.append(InlineKeyboardButton(text='⏭️ Далее', callback_data='result_next'))
-    nav.append(InlineKeyboardButton(text="✏ Изменить запрос", callback_data="result_edit"))
+    nav.append(InlineKeyboardButton(text="✏️ Изменить запрос", callback_data="result_edit"))
+    nav.append(InlineKeyboardButton(text="❓ Советы", callback_data="help_tips"))
     kb = InlineKeyboardMarkup(inline_keyboard=[nav])
-    caption = f"<b>Результат {idx + 1} из {total}</b>\n<code>{desc}</code>"
+    caption = (
+        f"<b>Результат: {idx+1} из {total}</b>\n"
+        f"<code>{desc}</code>\n"
+        "Для перехода выбери кнопку ⬅️ или ⏭️.\n"
+        "Если хочешь изменить теги — нажми ✏️\n"
+    )
     await send_result_message(message_or_call, caption, kb, edit, img_url)
 
 async def send_result_message(message_or_call, caption, kb, edit, img_url=None):
@@ -224,6 +267,15 @@ async def pick_handler(call: CallbackQuery, state: FSMContext):
     except Exception: pass
     await send_step(call.message, state, preview=True)
 
+@dp.callback_query(F.data.startswith("commit_"))
+async def commit_handler(call: CallbackQuery, state: FSMContext):
+    parts = call.data.split('_')
+    if len(parts) != 2: await call.answer("Ошибка данных кнопки."); return
+    idx = int(parts[1])
+    await state.update_data(step_index=idx+1)
+    try: await call.message.delete()
+    except Exception: pass
+    await send_step(call.message, state, preview=True)
 
 @dp.callback_query(F.data.startswith("skip_"))
 async def skip_handler(call: CallbackQuery, state: FSMContext):
@@ -232,7 +284,7 @@ async def skip_handler(call: CallbackQuery, state: FSMContext):
     idx = int(parts[1])
     data = await state.get_data()
     answers = data.get("answers", {})
-    group, _ = func_steps[idx]
+    group, _= func_steps[idx]
     answers[group] = None
     await state.update_data(step_index=idx + 1, answers=answers)
     try: await call.message.delete()
@@ -259,7 +311,7 @@ async def cancel_cb_handler(call: CallbackQuery, state: FSMContext):
     await state.clear()
     try: await call.message.delete()
     except Exception: pass
-    await call.message.answer("Создание персонажа отменено. жми /start, если хочешь снова попробовать! 🥶")
+    await call.message.answer("Создание персонажа отменено. Жми /start чтобы начать заново! 🔄")
 
 # --- RESULT NAVIGATION ---
 @dp.callback_query(F.data.in_({"result_next", "result_prev"}))
@@ -295,11 +347,27 @@ async def cb_result_edit(call: CallbackQuery, state: FSMContext):
     except Exception: pass
     await send_step(call.message, state, preview=True)
 
+@dp.callback_query(F.data == "help_tips")
+async def cb_help_tips(call: CallbackQuery, state: FSMContext):
+    # Показываем короткие советы прямо из UX!
+    await call.answer()
+    await call.message.answer(
+        "<b>💡 Советы для поиска Rule34!</b>\n"
+        "• Не пытайся выбрать слишком детальное описание.\n"
+        "• Лучшие результаты — 2-3 основных признака, не больше.\n"
+        "• Чем проще персонаж, тем скорее что-то найдётся.\n"
+        "• Смелее экспериментируй! Иногда пропустить шаг — гораздо лучше, чем выбирать всё подряд.\n",
+        parse_mode="HTML"
+    )
+    await call.message.answer("Жми /start чтобы собрать нового персонажа!")
+
 # --- СТАРТ ---
 @dp.message(Command('start'))
 async def cmd_start(message: types.Message, state: FSMContext):
+    await state.clear()
     await state.set_state(CharFSM.step)
     await state.update_data(step_index=0, answers={})
+    await send_intro(message)
     await send_step(message, state, preview=True)
 
 @dp.message(Command('reset'))
@@ -310,7 +378,7 @@ async def cmd_reset(message: types.Message, state: FSMContext):
 @dp.message(Command('cancel'))
 async def cmd_cancel(message: types.Message, state: FSMContext):
     await state.clear()
-    await message.answer("Создание персонажа отменено. Жми /start если захочешь снова!")
+    await message.answer("Создание персонажа отменено. Жми /start если захочешь снова! 🔁")
 
 @dp.message(Command('preview'))
 async def cmd_preview(message: types.Message, state: FSMContext):
@@ -323,11 +391,26 @@ async def cmd_preview(message: types.Message, state: FSMContext):
             try: func(ans)
             except Exception: pass
     desc = char_creator.get_character()
-    await message.answer(f"Текущий персонаж: {desc or '[не выбран]'}")
+    await message.answer(f"📝 Текущее описание персонажа: <code>{desc or '[не выбран]'}</code>", parse_mode="HTML")
+
+@dp.message(Command('help'))
+async def cmd_help(message: types.Message, state: FSMContext):
+    await message.answer(
+        "⚡️ <b>Справка:</b>\n"
+        "1. Лучше не выбирать слишком много тегов!\n"
+        "2. Важно: чем меньше уникальных фич, тем больше изображений на Rule34.\n"
+        "3. Если ничего не находит — вернись назад и попробуй поэкспериментировать!\n"
+        "\nКоманды:\n"
+        "/start — начать сначала\n"
+        "/reset — сбросить персонажа\n"
+        "/help — справка/советы\n"
+        "/cancel — выйти\n",
+        parse_mode="HTML"
+    )
 
 @dp.message()
 async def unknown_cmd(message: types.Message, state: FSMContext):
-    await message.answer("Жми /start, чтобы собрать нового персонажа (хорошо подумаешь — получишь классные арты!)")
+    await message.answer("🚦 Не знаю такой команды. Жми /start чтобы собрать нового персонажа (выбирай характеристики шаг за шагом и получай арты!).")
 
 if __name__ == '__main__':
     import asyncio
