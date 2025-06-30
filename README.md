@@ -33,8 +33,9 @@
 
 ```bash
 # 1. Клонируем репу
-git clone https://github.com/you/your-rule34-cli.git
-cd your-rule34-cli
+git clone https://github.com/tg-prplx/rule34-finder
+cd rule34-finder
+cd PythonApplication1
 
 # 2. Создаём виртуалку (рекомендуется)
 python -m venv venv
