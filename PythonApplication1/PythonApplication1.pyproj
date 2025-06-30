@@ -11,6 +11,8 @@
     <OutputPath>.</OutputPath>
     <Name>PythonApplication1</Name>
     <RootNamespace>PythonApplication1</RootNamespace>
+    <SuppressConfigureTestFrameworkPrompt>true</SuppressConfigureTestFrameworkPrompt>
+    <SuppressEnvironmentCreationPrompt>True</SuppressEnvironmentCreationPrompt>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,6 +28,7 @@
     <Compile Include="app.py" />
     <Compile Include="r34nfag.py" />
     <Compile Include="test.py" />
+    <Compile Include="tg-app.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".env" />
