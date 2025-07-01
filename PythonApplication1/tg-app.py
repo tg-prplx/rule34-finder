@@ -1,3 +1,4 @@
+# WARNING: This code is vibecoded at 85% by ChatGPT, please review it before using it in production.
 import os
 import dotenv
 import logging as log
