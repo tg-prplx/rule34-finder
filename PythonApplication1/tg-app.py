@@ -52,13 +52,51 @@ func_steps = [
 ]
 
 POLLINATIONS_STYLE_PROMPTS = {
-    "2d": "2d illustration, 2d art, flat colors, crisp lineart, cel shading, vibrant colors",
-    "realistic": "photorealistic, ultra detailed, realistic lighting, realistic skin, 8k, sharp focus, real life",
-    "anime": "anime style, anime artwork, high quality, colorful, sharp lines, vibrant, japanese anime",
-    "sketch": "sketch, pencil drawing, rough lines, monochrome, hand drawn, unfinished look",
-    "pixel": "pixel art, low resolution, 8-bit, blocky, retro video game style, pixelated",
-    "cartoon": "cartoon style, exaggerated features, bold outlines, bright colors, comic, playful",
+    # ПЛОСКИЙ 2D (максимум 2d-слов)
+    "2d": (
+        "tasteful, perfect anatomy, 2d illustration, pure 2d, 2d art, 2d style, flat colors, "
+        "cel shading, crisp clean lineart, vibrant palette, graphic novel look, vector-like shapes, "
+        "high-resolution digital painting, frame-by-frame vibe"
+    ),
+
+    # Фотореалистичная съёмка
+    "realistic": (
+        "tasteful, perfect anatomy, photorealistic, ultra-detailed, cinematic lighting, "
+        "8k, sharp focus, natural skin texture, studio photography vibe, no cartoon, no cel shading"
+    ),
+
+    # АНИМЕ / ХЕНТАЙ – всё ещё чистый 2D
+    "anime": (
+        "tasteful, perfect anatomy, japanese anime style, hentai artwork, 2d anime, "
+        "2d illustration, cel shading, vibrant colors, sharp clean lines, manga aesthetics, HD screencap feel"
+    ),
+
+    # КАРАНДАШНЫЙ СКЕТЧ
+    "sketch": (
+        "nude, tasteful, perfect anatomy, 2d pencil sketch, hand-drawn, rough graphite lines, monochrome, "
+        "sketchbook style, unfinished look, cross-hatching, gesture drawing, raw linework"
+    ),
+
+    # ПИКСЕЛЬ-АРТ
+    "pixel": (
+        "tasteful, perfect anatomy, 8-bit pixel art, pure 2d, chunky pixels, low resolution, "
+        "retro video game style, limited color palette, dithering, square pixels"
+    ),
+
+    # ЗАПАДНЫЙ МУЛЬТ
+    "cartoon": (
+        "tasteful, perfect anatomy, 2d cartoon illustration, bold outlines, bright flat colors, "
+        "playful comic style, exaggerated features, saturday-morning vibe, vector clean shapes"
+    ),
+
+    # Чистый 3D (оставил как есть, вдруг понадобится)
+    "3d": (
+        "tasteful, perfect anatomy, high-poly 3d render, physically based materials, "
+        "cinematic lighting, ultra detail, 8k, realistic depth of field"
+    ),
 }
+
+
 
 POLLINATIONS_STYLES = {
     "2d": "2D",
