@@ -59,7 +59,7 @@
     "mood": [
       "happy","playful","aroused","naughty","embarrassed","shy","smug",
       "surprised","annoyed","crying","confident","dominant","submissive",
-      "sleepy","drunk","angry","evil_smile"
+      "sleepy","drunk","angry","evil_smile", "-ai_generated"
     ],
 
     "personality": [

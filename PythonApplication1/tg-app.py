@@ -10,6 +10,9 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from charCreate import CharCreate
 from r34nfag import Rule34NewForAnimeGooners
+from imageGen import PollinationsImageGenerator
+import urllib.parse as parse
+import random as rnd
 
 # --- INIT ---
 dotenv.load_dotenv()
@@ -22,6 +25,7 @@ storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
 char_creator = CharCreate()
 rule34 = Rule34NewForAnimeGooners()
+img_generator = PollinationsImageGenerator()
 
 # --- FSM STATE ---
 class CharFSM(StatesGroup):
@@ -48,6 +52,24 @@ func_steps = [
     ("boys", char_creator.choose_boys)
 ]
 
+POLLINATIONS_STYLE_PROMPTS = {
+    "2d": "2d illustration, 2d art, flat colors, crisp lineart, cel shading, vibrant colors",
+    "realistic": "photorealistic, ultra detailed, realistic lighting, realistic skin, 8k, sharp focus, real life",
+    "anime": "anime style, anime artwork, high quality, colorful, sharp lines, vibrant, japanese anime",
+    "sketch": "sketch, pencil drawing, rough lines, monochrome, hand drawn, unfinished look",
+    "pixel": "pixel art, low resolution, 8-bit, blocky, retro video game style, pixelated",
+    "cartoon": "cartoon style, exaggerated features, bold outlines, bright colors, comic, playful",
+}
+
+POLLINATIONS_STYLES = {
+    "2d": "2D",
+    "realistic": "Realistic",
+    "anime": "Anime",
+    "sketch": "Sketch",
+    "pixel": "Pixel Art",
+    "cartoon": "Cartoon"
+}
+
 STEP_ADVICE = {
     "who":            "🧑‍🎤 <b>Тип персонажа</b>\nВыбери 1-2 типа (не всё подряд, банально = лучше результаты).",
     "body_type":      "💪 <b>Фигура</b>\nМожно пропустить, если не важно.",
@@ -69,6 +91,30 @@ STEP_ADVICE = {
 # --- HELPER: Видео это? ---
 def is_video_file(url: str):
     return bool(url and re.search(r'\.(mp4|webm)(\?|$)', url, re.I))
+
+def build_style_keyboard():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text=name, callback_data=f"polli_style_{key}")]
+            for key, name in POLLINATIONS_STYLES.items()
+        ]
+    )
+
+async def generate_and_send_pollinations(msg, prompt, reply_markup=None):
+    img_url = img_generator.generate_image(prompt)
+    try:
+        await msg.answer_photo(
+            img_url,
+            caption=(
+                "🎨 <b>Генерация через нейросеть (Pollinations.ai):</b> "
+                "результат может быть кривоват, не удивляйся 😭\n\n"
+                f"<code>{prompt}</code>"
+            ),
+            parse_mode="HTML",
+            reply_markup=reply_markup     # <- вот это важно!
+        )
+    except Exception as e:
+        await msg.answer(f"Ошибка генерации изображения: {e}")
 
 # --- Клавиатура шага ---
 def build_step_keyboard(group, idx, tags, idx_selected=None, total_steps=len(func_steps)):
@@ -305,19 +351,29 @@ async def show_result(message_or_call, state: FSMContext, edit=False):
     idx = data.get('result_idx', 0)
     total = len(resp)
     if not resp:
-        kb = InlineKeyboardMarkup(
-            inline_keyboard=[
-                [InlineKeyboardButton(text="✏️ Изменить запрос", callback_data="result_edit")],
-                [InlineKeyboardButton(text="❓ Советы", callback_data="help_tips")]
+       kb = InlineKeyboardMarkup(
+       inline_keyboard=[
+            [
+                InlineKeyboardButton(text="🔁 Перегенерировать", callback_data="regen_ai"),
+                InlineKeyboardButton(text="✏️ Изменить запрос", callback_data="result_edit"),
+                InlineKeyboardButton(text="❓ Советы", callback_data="help_tips"),
             ]
+        ]
         )
-        await send_result_message(
+
+       desc = data.get('result_desc', '') or ''  # это описание (теги + всё выбранное)
+
+       await send_result_message(
             message_or_call,
             "😢 <b>Картинок не найдено!</b>\n\n"
-            "Попробуй упростить или убрать малопопулярные теги. Чем проще набор — тем больше шанс на успех!",
-            kb, edit
+            "✨ <i>Попробуй сгенерировать арт через ИИ!</i>\n"
+            "Выбери стиль для нейросети 👇",
+            build_style_keyboard(),
+            edit
         )
-        return
+       await state.update_data(ai_prompt=desc)
+       return
+
     post = resp[idx]
     img_url = post.get("file_url") or post.get("sample_url")
     is_video = is_video_file(img_url)
@@ -341,23 +397,53 @@ async def show_result(message_or_call, state: FSMContext, edit=False):
 
 async def send_result_message(message_or_call, caption, kb, edit, file_url=None, is_video=False):
     msg = message_or_call.message if isinstance(message_or_call, CallbackQuery) else message_or_call
-    if not file_url:
-        await msg.answer(caption, parse_mode="HTML", reply_markup=kb)
-        return
-    if edit:
-        if is_video:
-            media = types.InputMediaVideo(media=file_url, caption=caption, parse_mode="HTML")
-        else:
-            media = types.InputMediaPhoto(media=file_url, caption=caption, parse_mode="HTML")
-        try:
+    try:
+        if not file_url:
+            await msg.answer(caption, parse_mode="HTML", reply_markup=kb)
+            return
+
+        if edit:
+            if is_video:
+                media = types.InputMediaVideo(media=file_url, caption=caption, parse_mode="HTML")
+            else:
+                media = types.InputMediaPhoto(media=file_url, caption=caption, parse_mode="HTML")
             await msg.edit_media(media, reply_markup=kb)
-        except Exception:
-            await msg.edit_caption(caption=caption, parse_mode="HTML", reply_markup=kb)
-    else:
-        if is_video:
-            await msg.answer_video(file_url, caption=caption, parse_mode="HTML", reply_markup=kb)
         else:
-            await msg.answer_photo(file_url, caption=caption, parse_mode="HTML", reply_markup=kb)
+            if is_video:
+                await msg.answer_video(file_url, caption=caption, parse_mode="HTML", reply_markup=kb)
+            else:
+                await msg.answer_photo(file_url, caption=caption, parse_mode="HTML", reply_markup=kb)
+
+    except Exception as e:
+        # вот тут если ошибка TelegramBadRequest — отправляем ссылку текстом
+        # (можно строже: if "Bad Request" in str(e): ... но проще всегда ловить)
+        safe_caption = caption + f"\n\n[🔗Линк к медиа]({file_url})" if file_url else caption
+        await msg.answer(
+            safe_caption,
+            parse_mode="Markdown",
+            reply_markup=kb
+        )
+
+@dp.callback_query(F.data.startswith("polli_style_"))
+async def cb_polli_style(call: CallbackQuery, state: FSMContext):
+    style_key = call.data.replace("polli_style_", "")
+    await state.update_data(ai_style=style_key)  # сохранили стиль в state
+    data = await state.get_data()                # обязательно обновить!
+    prompt = build_pollinations_prompt(data)
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="🔁 Перегенерировать", callback_data="regen_ai"),
+                InlineKeyboardButton(text="🎨 Выбрать стиль", callback_data="change_ai_style"),
+            ],
+            [
+                InlineKeyboardButton(text="✏️ Изменить запрос", callback_data="result_edit"),
+                InlineKeyboardButton(text="❓ Советы", callback_data="help_tips"),
+            ]
+        ]
+    )
+    await call.message.answer("✨ Генерирую изображение через нейросеть...", reply_markup=kb)
+    await generate_and_send_pollinations(call.message, prompt, reply_markup=kb)
 
 @dp.callback_query(F.data.in_({"result_next", "result_prev"}))
 async def cb_result_nav(call: CallbackQuery, state: FSMContext):
@@ -450,7 +536,7 @@ async def msg_extra_tags(message: types.Message, state: FSMContext):
 async def cmd_start(message: types.Message, state: FSMContext):
     await state.clear()
     await state.set_state(CharFSM.step)
-    await state.update_data(step_index=0, answers={})
+    await state.update_data(step_index=0, answers={}, ai_style="2d")
     await send_intro(message)
     await send_step(message, state, preview=True)
 
@@ -495,6 +581,44 @@ async def cmd_help(message: types.Message, state: FSMContext):
 @dp.message()
 async def unknown_cmd(message: types.Message, state: FSMContext):
     await message.answer("🚦 не знаю такой команды. жми /start чтобы собрать нового персонажа! шагай по кнопкам и наслаждайся артом! 🌈")
+
+@dp.callback_query(F.data == "change_ai_style")
+async def cb_change_ai_style(call: CallbackQuery, state: FSMContext):
+    await call.answer("Выбери новый стиль для нейро-арта!")
+    await call.message.answer(
+        "👉 Выбери стиль для генерации ниже:",
+        reply_markup=build_style_keyboard()
+    )
+
+@dp.callback_query(F.data == "regen_ai")
+async def cb_regen_ai(call: CallbackQuery, state: FSMContext):
+    data = await state.get_data()
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(text="🔁 Перегенерировать", callback_data="regen_ai"),
+                InlineKeyboardButton(text="🎨 Выбрать стиль", callback_data="change_ai_style"),
+            ],
+            [
+                InlineKeyboardButton(text="✏️ Изменить запрос", callback_data="result_edit"),
+                InlineKeyboardButton(text="❓ Советы", callback_data="help_tips"),
+            ]
+        ]
+    )
+    prompt = build_pollinations_prompt(data)
+    await call.answer("Генерю новый try нейро-арта!")
+    await generate_and_send_pollinations(call.message, prompt, reply_markup=kb)
+
+def build_pollinations_prompt(data):
+    style_key = data.get("ai_style", "2d")
+    log.info(f"Using Pollinations style: {style_key}")
+    style_prompt = POLLINATIONS_STYLE_PROMPTS.get(style_key, "")
+    log.info(f"Style prompt: {style_prompt}")
+    main_prompt = data.get("ai_prompt", "").strip() or data.get('result_desc', '').strip()
+    log.info(f"Main prompt: {main_prompt}")
+    # Если стиль не выбран, просто верни основной промпт
+    return f"{style_prompt}, {main_prompt}" if style_prompt else main_prompt
+
 
 # --- СТАРТ ПОЛЛИНГА ---
 if __name__ == "__main__":
