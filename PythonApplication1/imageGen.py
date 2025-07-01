@@ -12,12 +12,12 @@ class PollinationsImageGenerator:
         self.nologo = nologo
         self.enhance = enhance
 
-    def generate_image(self, prompt: str, seed=rnd.randint(0, 10000000)):
+    def generate_image(self, prompt: str, seed=100440):
         prompt_encoded = parse.quote(prompt)
         url = (
             f"https://image.pollinations.ai/prompt/{prompt_encoded}"
             f"?model={self.model}&width={self.width}&height={self.height}"
-            f"&seed={self.seed}&nologo={self.nologo}&enhance={self.enhance}"
+            f"&seed={seed}&nologo={self.nologo}&enhance={self.enhance}"
         )
         
         response = rq.get(url)

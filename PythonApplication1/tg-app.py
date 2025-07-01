@@ -11,7 +11,6 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQu
 from charCreate import CharCreate
 from r34nfag import Rule34NewForAnimeGooners
 from imageGen import PollinationsImageGenerator
-import urllib.parse as parse
 import random as rnd
 
 # --- INIT ---
@@ -101,7 +100,7 @@ def build_style_keyboard():
     )
 
 async def generate_and_send_pollinations(msg, prompt, reply_markup=None):
-    img_url = img_generator.generate_image(prompt)
+    img_url = img_generator.generate_image(prompt, seed=rnd.randint(0,100000000))
     try:
         await msg.answer_photo(
             img_url,
