@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/403540b1-3ae2-4a1c-ab9b-638e35e41bf0)
+
 # animegooners-bot
 
 бот и фреймворк для генерации тегов персонажей и поиска/генерации артов по anime-вайбу с Rule34 и Pollinations.ai. работает в консоли и телеге, любит аниме и чёткие линии.
