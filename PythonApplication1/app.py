@@ -4,7 +4,7 @@ from r34nfag import Rule34NewForAnimeGooners
 from charCreate import CharCreate
 
 def browse_images(bot, char_tags, limit=10):
-    pid = 0  # page id
+    pid = 0
     images = []
     total_fetched = 0
     def fetch_page(pid):
