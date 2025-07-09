@@ -139,7 +139,7 @@ class CharCreate:
         log.info("Returning available tags.")
         return self.tags
 
-    def get_tag_request_cli(self, tags_list: str) -> int:
+    def get_tag_request_cli_multi(self, tags_list: str) -> list:
         tags = self.get_tags()[tags_list]
         col_width = max(len(tag) for tag in tags) + 2
         cols = 4
@@ -153,5 +153,20 @@ class CharCreate:
         if len(tags) % cols != 0:
             print()
         print("-" * (col_width * cols))
-        choice = input(f"Enter number (0-{len(tags)-1}): ")
-        return int(choice) if choice.isdigit() and 0 <= int(choice) < len(tags) else -1
+
+        print("Введите номера тегов через запятую. Примеры: 0,2,5")
+        print("s - skip до конца, b - back на предыдущий шаг, Enter - пропустить только этот")
+        choice = input(f"Your choice (0-{len(tags)-1}, s:skip, b:back): ").strip()
+
+        if choice.lower() == 's':
+            return 'SKIP_ALL'
+        if choice.lower() == 'b':
+            return 'BACK'
+        if not choice:
+            return []
+        try:
+            ids = [int(x) for x in choice.split(',') if x.strip().isdigit() and 0 <= int(x.strip()) < len(tags)]
+            return ids
+        except Exception:
+            print("Некорректный ввод, попробуйте снова.")
+            return self.get_tag_request_cli_multi(tags_list)
