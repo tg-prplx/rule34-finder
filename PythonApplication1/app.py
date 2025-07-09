@@ -4,7 +4,6 @@ from r34nfag import Rule34NewForAnimeGooners
 from charCreate import CharCreate
 
 def browse_images(bot, char_tags, limit=10):
-    """Интерактивная CLI-навигация по поиску изображений."""
     pid = 0  # page id
     images = []
     total_fetched = 0
